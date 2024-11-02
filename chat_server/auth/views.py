@@ -59,7 +59,7 @@ def login(request):
 
         if check_password(password, user.password):
             csrf_token = get_token(request)
-            return json_response({'message': 'Login successful', 'csrfToken': csrf_token}, status=200)
+            return json_response({'csrfToken': csrf_token}, status=200)
         else:
             return json_response({'error': 'Invalid credentials'}, status=401)
 
