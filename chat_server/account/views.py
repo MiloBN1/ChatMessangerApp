@@ -1,6 +1,11 @@
 from django.http import JsonResponse
-from django.shortcuts import render
 
 # Create your views here.
 def who_am_i(request):
-    return JsonResponse({'message':"ii"})
+    if request.user.is_authenticated:
+        return JsonResponse(
+            {'username': request.user.username, 'email': request.user.email}
+        )
+    return JsonResponse(
+        {'message': 'Not logged in'}, status=401
+    )

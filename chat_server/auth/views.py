@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from main.models import User
 from django.middleware.csrf import get_token
-
+from django.contrib.auth import login as login_emitter
 def json_response(data, status=200):
     return JsonResponse(data, status=status)
 
@@ -59,6 +59,7 @@ def login(request):
 
         if check_password(password, user.password):
             csrf_token = get_token(request)
+            login_emitter(request, user)
             return json_response({'csrfToken': csrf_token}, status=200)
         else:
             return json_response({'error': 'Invalid credentials'}, status=401)
