@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +25,13 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),  # Время жизни токена доступа
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),    # Время жизни токена обновления
+}
+
+AUTH_USER_MODEL = 'main.User'
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

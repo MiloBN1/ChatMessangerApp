@@ -1,11 +1,19 @@
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
-from django.utils import timezone
 
-class User(models.Model):
-    username = models.CharField(max_length=50)
-    email = models.EmailField(max_length=255, unique=True)
-    password = models.CharField(max_length=255)
-    last_login = models.DateTimeField(null=True, blank=True)
+class User(AbstractUser):
+    ROLE_CHOICES = [
+        ('admin', 'Admin'),
+        ('user', 'User'),
+        ('moderator', 'Moderator'),
+        # Add other roles if necessary
+    ]
+
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='user')
 
     class Meta:
         db_table = 'chatserver_users'
+        unique_together = ('username', 'email')
+
+    groups = models.ManyToManyField(Group, related_name='custom_user_set', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_set', blank=True)
