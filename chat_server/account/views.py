@@ -1,10 +1,9 @@
 from rest_framework import generics, permissions
-from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from auth.serializers import UserSerializer
+from .serializers import UserProfileSerializer
 
 class UserMeView(generics.RetrieveAPIView):
-    serializer_class = UserSerializer
+    serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
