@@ -1,11 +1,12 @@
-from django.http import JsonResponse
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from auth.serializers import UserSerializer
 
-# Create your views here.
-def who_am_i(request):
-    if request.user.is_authenticated:
-        return JsonResponse(
-            {'username': request.user.username, 'email': request.user.email}
-        )
-    return JsonResponse(
-        {'message': 'Not logged in'}, status=401
-    )
+class UserMeView(generics.RetrieveAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get_object(self):
+        return self.request.user

@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import who_am_i
+from .views import UserMeView
+
 urlpatterns = [
-    path('whoami/', who_am_i, name='whoami')
+    path('user/me/', UserMeView.as_view(), name='user_me'),
 ]
